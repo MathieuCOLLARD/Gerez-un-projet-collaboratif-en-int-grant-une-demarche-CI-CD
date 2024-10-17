@@ -3,7 +3,7 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: Java CI with Maven
+name: Frontend CI - Test & SonarQube Analysis
 
 on:
   push:
