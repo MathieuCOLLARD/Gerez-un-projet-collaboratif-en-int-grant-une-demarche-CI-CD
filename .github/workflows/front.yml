@@ -44,6 +44,10 @@ jobs:
       working-directory: front
       run: npx ng test --watch=false --browsers=ChromeHeadless
       
+    - name: Install Cypress
+      working-directory: front
+      run: npm install cypress --save-dev
+      
     - name: Run e2e tests
       working-directory: front
       run: npx ng e2e
