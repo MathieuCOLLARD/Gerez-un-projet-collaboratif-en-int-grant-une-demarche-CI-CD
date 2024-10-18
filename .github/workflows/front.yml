@@ -39,10 +39,6 @@ jobs:
     - name: Build the project
       working-directory: front
       run: npx ng build
-
-    - name: run tests
-      working-directory: front
-      run: npx ng test --watch=false --browsers=ChromeHeadless
       
     - name: Install Cypress
       working-directory: front
@@ -51,6 +47,10 @@ jobs:
     - name: Run Cypress E2E tests
       working-directory: front
       run: npx ng e2e
+      
+    - name: run tests
+      working-directory: front
+      run: npx ng test --watch=false --browsers=ChromeHeadless
 
     - name: upload coverage report
       uses: actions/upload-artifact@v3
