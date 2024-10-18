@@ -49,7 +49,8 @@ jobs:
       run: npm install cypress --save-dev
 
     - name: Run Cypress E2E tests
-      run: npx ng e2e:cypress:ci
+      working-directory: front
+      run: npx cypress run
 
     - name: upload coverage report
       uses: actions/upload-artifact@v3
