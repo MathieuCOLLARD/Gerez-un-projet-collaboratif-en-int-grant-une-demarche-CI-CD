@@ -50,7 +50,7 @@ jobs:
 
     - name: Run Cypress E2E tests
       working-directory: front
-      run: npx cypress run
+      run: npx ng e2e
 
     - name: upload coverage report
       uses: actions/upload-artifact@v3
