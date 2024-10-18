@@ -28,11 +28,6 @@ jobs:
       with:
         node-version: 16
         
-    - name: Install Chrome dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y libnss3 libxss1 libasound2 fonts-liberation libappindicator3-1 xdg-utils
-
     - name: install dependencies
       working-directory: front
       run: npm ci
@@ -47,7 +42,7 @@ jobs:
 
     - name: run tests
       working-directory: front
-      run: npx ng test
+      run: npx ng test --watch=false --browsers=ChromeHeadless
       
     - name: Run e2e tests
       working-directory: front
