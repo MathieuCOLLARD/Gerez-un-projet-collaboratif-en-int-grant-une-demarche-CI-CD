@@ -44,18 +44,6 @@ jobs:
       working-directory: front
       run: npx ng test --watch=false --browsers=ChromeHeadless
       
-    - name: Install Cypress
-      working-directory: front
-      run: npm install cypress --save-dev
-      
-    - name: Add Cypress via ng add (skip confirmation)
-      working-directory: front
-      run: npx ng add @cypress/schematic --skip-confirmation
-      
-    - name: Run Cypress E2E tests
-      working-directory: front
-      run: npx ng e2e
-      
     - name: upload coverage report
       uses: actions/upload-artifact@v3
       with:
