@@ -43,7 +43,11 @@ jobs:
     - name: Install Cypress
       working-directory: front
       run: npm install cypress --save-dev
-
+      
+    - name: Add Cypress via ng add
+      working-directory: front
+      run: npx ng add @cypress/schematic
+      
     - name: Run Cypress E2E tests
       working-directory: front
       run: npx ng e2e
