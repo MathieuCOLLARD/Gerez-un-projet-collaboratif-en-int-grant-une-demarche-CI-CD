@@ -49,3 +49,30 @@ jobs:
       with:
         name: coverage-report
         path: front/coverage
+        
+  sonar-frontend:
+      needs: tests-front
+      defaults:
+        run:
+          working-directory: front
+
+      name: Sonar Cloud Front-End Scan
+      runs-on: self-hosted
+      steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: Setup Node
+        uses: actions/setup-node@v4 
+        with: 
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: ./front/package-lock.json
+      - name: install SonarQube scanner 
+        run: npm install -g sonarqube-scanner
+      - name: Run SonarQube 
+        run: >
+            sonar-scanner
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_FRONT }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
