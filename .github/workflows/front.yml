@@ -50,7 +50,7 @@ jobs:
       
     - name: Run Cypress E2E tests
       working-directory: front
-      run: npx ng e2e
+      run: npx ng e2e --watch=false --browsers=ChromeHeadless
       
     - name: run tests
       working-directory: front
