@@ -1,11 +1,22 @@
-name: SonarCloud
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Backend CI - Test & SonarQube Analysis
+
 on:
   push:
-    branches:
-      - main
+    branches: [ "develop" ]
+    paths:
+      - 'front/**'
   pull_request:
-    types: [opened, synchronize, reopened]
+    branches: [ "main" ]
+    paths:
+      - 'front/**'
 jobs:
+  #tests-back:
+  
   build:
     name: Build and analyze
     runs-on: ubuntu-latest
