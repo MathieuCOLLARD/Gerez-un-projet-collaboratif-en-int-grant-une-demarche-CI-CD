@@ -44,6 +44,6 @@ jobs:
       - name: Build and analyze
         working-directory: back
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=MathieuCOLLARD_Gerez-un-projet-collaboratif-en-int-grant-une-demarche-CI-CD
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=SonarQubeProject -Dsonar.projectName='SonarQubeProject'
