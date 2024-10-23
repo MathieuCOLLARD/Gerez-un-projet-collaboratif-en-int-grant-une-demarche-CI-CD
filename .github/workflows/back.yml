@@ -9,11 +9,11 @@ on:
   push:
     branches: [ "develop" ]
     paths:
-      - 'front/**'
+      - 'back/**'
   pull_request:
     branches: [ "main" ]
     paths:
-      - 'front/**'
+      - 'back/**'
 jobs:
   #tests-back:
   
