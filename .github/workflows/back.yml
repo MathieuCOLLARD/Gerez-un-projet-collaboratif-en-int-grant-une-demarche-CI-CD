@@ -17,8 +17,8 @@ on:
 jobs:
   #tests-back:
   
-  build:
-    name: Build and analyze
+  sonar-frontend:
+    name: SonarCloud Back
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
