@@ -15,11 +15,36 @@ on:
     paths:
       - 'back/**'
 jobs:
-  #tests-back:
+  tests-backend:
+      name: Build & Test Backend
+      runs-on: ubuntu-latest
+
+      defaults:
+        run:
+          working-directory: ${{ github.workspace }}/back
+
+      steps:
+        - name: Git Checkout Backend
+          uses: actions/checkout@v2     # checkout the repo
+
+        - name: Install Backend Dependencies
+          run: mvn clean install        # install packages
+
+        - name: Execute Backend Tests
+          run: mvn clean test
+
+        - name: Creation Backend Tests Report
+          run: mvn jacoco:report
+
+        - name: Backend Code Coverage Report
+          uses: actions/upload-artifact@v4
+          with:
+            name: Jacoco Code Coverage
+            path: ./back/target/site/jacoco/
   
-  build:
-    name: Build and analyze
-    runs-on: ubuntu-latest
+  sonar-backend:
+    name: SonarCloud Back
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v4
         with:
