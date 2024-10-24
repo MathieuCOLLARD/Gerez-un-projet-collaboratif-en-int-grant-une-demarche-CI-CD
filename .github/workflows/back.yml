@@ -43,8 +43,8 @@ jobs:
             name: Jacoco Code Coverage
             path: ./back/target/site/jacoco/
   
-  sonar-backend:
-    name: SonarCloud Back
+  build:
+    name: Build and analyze
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -70,6 +70,6 @@ jobs:
       - name: Build and analyze
         working-directory: back
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=SonarQubeProject -Dsonar.projectName='SonarQubeProject'
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=MathieuCOLLARD_Gerez-un-projet-collaboratif-en-i
