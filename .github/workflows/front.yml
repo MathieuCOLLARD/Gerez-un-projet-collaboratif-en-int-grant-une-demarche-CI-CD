@@ -7,7 +7,7 @@ name: Frontend CI - Test & SonarQube Analysis
 
 on:
   push:
-    branches: [ "develop" ]
+    branches: [ "develop", "main" ]
     paths:
       - 'front/**'
   pull_request:
