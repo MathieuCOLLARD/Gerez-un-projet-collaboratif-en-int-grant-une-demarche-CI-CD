@@ -16,8 +16,8 @@ on:
     paths:
       - 'front/**'
 jobs:
-  tests-front:
-
+  tests-sonar-front:
+    name: Tests et SonarCloud
     runs-on: ubuntu-latest
 
     steps:
@@ -43,24 +43,21 @@ jobs:
         name: coverage-report
         path: front/coverage
 
-  sonarcloud:
-    name: SonarCloud
-    needs: tests-front
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
-        with:
-          projectBaseDir: front
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    - name: SonarCloud
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+        
+    - name: SonarCloud Scan
+      uses: SonarSource/sonarcloud-github-action@master
+      with:
+        projectBaseDir: front
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
   docker:
     name: Docker Image Front
-    needs: sonarcloud
+    needs: tests-sonar-front
     runs-on: ubuntu-latest
     steps:
        - name: checkout code
