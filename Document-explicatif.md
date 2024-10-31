@@ -18,19 +18,17 @@ Il crée également une image Docker du frontend.
 
     Installation de Node.js : Installation de Node.js 16 avec actions/setup-node@v3.
     
-    Installation des dépendances : npm ci pour installer les dépendances front.
+    Installation des dépendances : npm install pour installer les dépendances front.
     
-    Installation de l’Angular CLI : Installation d'Angular CLI version 14.1.0.
-    
-    Build du projet : Compilation avec npx ng build.
-    
-    Exécution des tests : npx ng test --watch=false --browsers=ChromeHeadless.
+    Exécution des tests : npm run test -- --code-coverage --browsers=ChromeHeadless --watch=false
     
     Upload du rapport de couverture : Utilisation de actions/upload-artifact@v3 pour stocker le rapport de couverture.
 
   3. Étapes d’analyse avec SonarCloud :
      
     Clonage du code : actions/checkout@v4.
+    
+    Téléchargement du rapport de couverture : Utilisation de actions/download-artifact@v3 pour récupérer le rapport de couverture (fichier lcov.info) généré lors des tests.
     
     Scan avec SonarCloud : Utilisation de SonarSource/sonarcloud-github-action@master.
     
