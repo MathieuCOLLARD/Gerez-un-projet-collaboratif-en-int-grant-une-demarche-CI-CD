@@ -104,6 +104,7 @@ Frontend : 3 minutes
 
 Commentaires : Bien que la couverture de code soit excellente côté frontend, le backend pourrait bénéficier de tests supplémentaires pour se rapprocher de l'objectif de 80%.
 
+
 ### Notes de Qualité SonarCloud
 
 1. Backend
@@ -138,6 +139,6 @@ Commentaires : Bien que la couverture de code soit excellente côté frontend, l
 
 Ce document a décrit les workflows CI/CD, les KPIs et l’analyse des métriques de qualité. Les retours d’utilisateurs indiquent des axes d’amélioration :
 
-Renforcer la couverture de test frontend.
+Renforcer la couverture de test backend.
 Ajouter des tests end-to-end pour couvrir des cas d’utilisation plus complets.
 Ces recommandations contribueront à garantir une qualité de code optimale et une meilleure satisfaction des utilisateurs.
