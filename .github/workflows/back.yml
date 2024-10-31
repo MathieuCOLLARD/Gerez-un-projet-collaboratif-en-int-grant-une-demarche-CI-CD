@@ -7,7 +7,7 @@ name: Backend CI - Test & Sonarcloud Analysis
 
 on:
   push:
-    branches: [ "develop" ]
+    branches: [ "develop", "main" ]
     paths:
       - 'back/**'
   pull_request:
