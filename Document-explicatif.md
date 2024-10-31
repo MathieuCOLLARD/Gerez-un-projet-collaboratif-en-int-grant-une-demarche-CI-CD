@@ -92,33 +92,50 @@ Les métriques initiales de qualité et de performance des workflows sont les su
 
 Couverture de code :
 
-Backend : 
+Backend : 38.8%
 
-Frontend : 
+Frontend : 83.3%
 
 Temps moyen de build :
 
-Backend :  minutes
+Backend : 2 minutes
 
-Frontend :  minutes
+Frontend : 3 minutes
 
-Commentaires : Le backend est bien couvert, mais le frontend pourrait bénéficier de tests supplémentaires pour améliorer la couverture.
+Commentaires : Bien que la couverture de code soit excellente côté frontend, le backend pourrait bénéficier de tests supplémentaires pour se rapprocher de l'objectif de 80%.
 
+### Notes de Qualité SonarCloud
+
+1. Backend
+   - Sécurité : Note A (0 vulnérabilités détectées)
+   - Fiabilité : Note D (1 problème de fiabilité détecté)
+   - Maintenabilité : Note A (8 problèmes mineurs de maintenabilité)
+   - Note E (0% des points critiques de sécurité revus)
+   - Duplications : 0.0%
+   
+2. Frontend
+   - Note A (0 vulnérabilités détectées)
+   - Fiabilité : Note A (aucun problème de fiabilité)
+   - Note A (4 problèmes mineurs de maintenabilité)
+   - Note A (100% des points critiques de sécurité revus)
+   - Duplications : 0.0%
+     
 ### Retours Utilisateurs
 
 - Retours positifs :
 
-    La couverture du code est jugée satisfaisante et les tests sont stables.
+    Couverture de code : Le frontend atteint une couverture de code de 83.3%, ce qui dépasse l’objectif de 80%.
   
-    Bonne performance des workflows avec un temps de build rapide.
+    Fiabilité des workflows : Le retour est positif pour les tests stables et le temps de build rapide.
   
 - Suggestions d’amélioration :
   
-    Ajouter des tests end-to-end pour mieux couvrir les scénarios d’utilisation.
+    Tests end-to-end : Ajouter des tests end-to-end pour mieux couvrir les scénarios d’utilisation.
   
-    Améliorer la documentation pour expliquer le fonctionnement de chaque étape CI/CD.
+    Documentation : Améliorer la documentation pour clarifier le fonctionnement de chaque étape CI/CD.
   
 ## Conclusion et Recommandations
+
 Ce document a décrit les workflows CI/CD, les KPIs et l’analyse des métriques de qualité. Les retours d’utilisateurs indiquent des axes d’amélioration :
 
 Renforcer la couverture de test frontend.
