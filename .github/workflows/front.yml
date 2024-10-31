@@ -71,6 +71,8 @@ jobs:
     needs: sonarcloud
     runs-on: ubuntu-latest
     steps:
+       - name: List files
+         run: ls -R
        - name: Log in to Docker Hub
          uses: docker/login-action@v2
          with:
@@ -82,4 +84,5 @@ jobs:
          run: docker build -t ${{ secrets.DOCKER_USERNAME }}/my-image:latest .
 
        - name: Push Docker image
+         working-directory: front
          run: docker push ${{ secrets.DOCKER_USERNAME }}/my-image:latest
