@@ -104,8 +104,6 @@ Backend : ~ 2 minutes
 
 Frontend : ~ 4 minutes
 
-Commentaires : Le backend est bien couvert, mais le frontend pourrait bénéficier de tests supplémentaires pour améliorer la couverture.
-
 ### Retours Utilisateurs
 
 - Retours positifs :
@@ -123,6 +121,6 @@ Commentaires : Le backend est bien couvert, mais le frontend pourrait bénéfici
 ## Conclusion et Recommandations
 Ce document a décrit les workflows CI/CD, les KPIs et l’analyse des métriques de qualité. Les retours d’utilisateurs indiquent des axes d’amélioration :
 
-Renforcer la couverture de test frontend.
+Renforcer la couverture de test backend.
 Ajouter des tests end-to-end pour couvrir des cas d’utilisation plus complets.
 Ces recommandations contribueront à garantir une qualité de code optimale et une meilleure satisfaction des utilisateurs.
