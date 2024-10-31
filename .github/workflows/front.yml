@@ -16,8 +16,8 @@ on:
     paths:
       - 'front/**'
 jobs:
-  tests-sonar-front:
-    name: Tests et SonarCloud
+  tests-front:
+
     runs-on: ubuntu-latest
 
     steps:
@@ -31,11 +31,19 @@ jobs:
         
     - name: install dependencies
       working-directory: front
-      run: npm install
+      run: npm ci
+      
+    - name: Install Angular CLI
+      working-directory: front
+      run: npm install @angular/cli@14.1.0
+
+    - name: Build the project
+      working-directory: front
+      run: npx ng build
       
     - name: run tests
       working-directory: front
-      run: npm run test -- --code-coverage --browsers=ChromeHeadless --watch=false
+      run: npx npm run test
       
     - name: upload coverage report
       uses: actions/upload-artifact@v3
@@ -43,21 +51,31 @@ jobs:
         name: coverage-report
         path: front/coverage
 
-    - name: SonarCloud
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-    
-    - name: SonarCloud Scan
-      uses: SonarSource/sonarcloud-github-action@master
-      with:
-        projectBaseDir: front
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  sonarcloud:
+    name: SonarCloud
+    needs: tests-front
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+          
+      - name: download coverage report
+        uses: actions/download-artifact@v3
+        with:
+          name: coverage-report
+          path: front/coverage
+          
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        with:
+          projectBaseDir: front
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
   docker:
     name: Docker Image Front
-    needs: tests-sonar-front
+    needs: sonarcloud
     runs-on: ubuntu-latest
     steps:
        - name: checkout code
