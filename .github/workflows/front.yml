@@ -43,7 +43,7 @@ jobs:
       
     - name: run tests
       working-directory: front
-      run: npx npm test --watch=false --browsers=ChromeHeadless
+      run: npx npm run test --watch=false --browsers=ChromeHeadless
       
     - name: upload coverage report
       uses: actions/upload-artifact@v3
