@@ -31,19 +31,11 @@ jobs:
         
     - name: install dependencies
       working-directory: front
-      run: npm ci
-      
-    - name: Install Angular CLI
-      working-directory: front
-      run: npm install @angular/cli@14.1.0
-
-    - name: Build the project
-      working-directory: front
-      run: npx ng build
+      run: npm install
       
     - name: run tests
       working-directory: front
-      run: npx npm run test
+      run: npm run test -- --code-coverage --browsers=ChromeHeadless --watch=false
       
     - name: upload coverage report
       uses: actions/upload-artifact@v3
@@ -59,6 +51,13 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+          
+      - name: download coverage report
+        uses: actions/download-artifact@v3
+        with:
+          name: coverage-report
+          path: front/coverage
+          
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         with:
