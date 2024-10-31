@@ -82,8 +82,8 @@ jobs:
 
        - name: Build Docker image
          working-directory: front
-         run: docker build -t ${{ secrets.DOCKER_USERNAME }}/my-image:latest .
+         run: docker build -t ${{ secrets.DOCKER_USERNAME }}/bobapp-front:latest .
 
        - name: Push Docker image
          working-directory: front
-         run: docker push ${{ secrets.DOCKER_USERNAME }}/my-image:latest
+         run: docker push ${{ secrets.DOCKER_USERNAME }}/bobapp-front:latest
