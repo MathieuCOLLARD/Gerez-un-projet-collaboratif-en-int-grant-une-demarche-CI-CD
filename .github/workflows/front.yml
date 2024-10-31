@@ -81,6 +81,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
        - name: Build Docker image
+
          working-directory: front
          run: docker build -t ${{ secrets.DOCKER_USERNAME }}/bobapp-front:latest .
 
