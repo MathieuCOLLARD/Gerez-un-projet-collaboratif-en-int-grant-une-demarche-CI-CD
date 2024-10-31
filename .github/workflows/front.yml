@@ -48,6 +48,12 @@ jobs:
       with:
         fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
         
+    - name: download coverage report
+      uses: actions/download-artifact@v3
+      with:
+        name: coverage-report
+        path: front/coverage
+        
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@master
       with:
