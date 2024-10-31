@@ -3,7 +3,7 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: Frontend CI - Test & SonarQube Analysis
+name: Frontend CI - Test & Sonarcloud Analysis
 
 on:
   push:
