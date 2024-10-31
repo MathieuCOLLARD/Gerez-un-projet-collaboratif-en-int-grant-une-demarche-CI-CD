@@ -100,9 +100,9 @@ Frontend :
 
 Temps moyen de build :
 
-Backend :  minutes
+Backend : ~ 2 minutes
 
-Frontend :  minutes
+Frontend : ~ 4 minutes
 
 Commentaires : Le backend est bien couvert, mais le frontend pourrait bénéficier de tests supplémentaires pour améliorer la couverture.
 
