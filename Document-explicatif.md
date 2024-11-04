@@ -401,7 +401,7 @@ Commentaire : La couverture de code pour le backend est insuffisante car netteme
 
 **Backend - Métriques SonarCloud**
 
-![image](https://github.com/user-attachments/assets/eaa72429-7c2b-4bb1-8211-316bb31d514e)
+![image](https://github.com/user-attachments/assets/02c14b6b-0c52-47a5-8add-8fea9a6281b0)
 
 Commentaires : Le rapport SonarCloud du backend fournit des informations importantes pour l’amélioration de la qualité :
 
