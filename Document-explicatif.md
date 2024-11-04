@@ -4,41 +4,176 @@ Ce document décrit les GitHub Actions configurées pour le projet, présente le
 
 ## Workflows GitHub Actions
 ### Workflow Frontend CI - Test & SonarCloud Analysis
-Description : Ce workflow assure la qualité du code du frontend en exécutant des tests et en effectuant une analyse de code avec SonarCloud.
-Il crée également une image Docker du frontend.
-Étapes impliquées :
-  1. Déclencheurs :
-  
-    - Sur push sur les branches develop et main pour les changements dans front/**.
-  
-    - Sur pull_request vers main pour les changements dans front/**.
-  2. Étapes de CI/CD :
-     
-    Clonage du code : Utilisation de actions/checkout@v4 pour cloner le dépôt.
+### 1. Introduction au workflow
+Ce workflow exécute des étapes automatisées pour vérifier la qualité du code frontend. Il est divisé en trois sections :
+   - Tests de Frontend : Exécute les tests et génère un rapport de couverture de code.
+   - Analyse SonarCloud : Évalue la qualité du code via SonarCloud.
+   - Image Docker : Crée une image Docker du frontend et la pousse vers Docker Hub.
 
-    Installation de Node.js : Installation de Node.js 16 avec actions/setup-node@v3.
-    
-    Installation des dépendances : npm install pour installer les dépendances front.
-    
-    Exécution des tests : npm run test -- --code-coverage --browsers=ChromeHeadless --watch=false
-    
-    Upload du rapport de couverture : Utilisation de actions/upload-artifact@v3 pour stocker le rapport de couverture.
+### 2. En-tête du Workflow
+```yaml
+name: Frontend CI - Test & Sonarcloud Analysis
+```
 
-  3. Étapes d’analyse avec SonarCloud :
-     
-    Clonage du code : actions/checkout@v4.
+- name : Nom du workflow. Ici, "Frontend CI - Test & Sonarcloud Analysis" indique que ce workflow s'applique au frontend et exécute des tests et une analyse SonarCloud.
+  
+```yaml
+on:
+  push:
+    branches: [ "develop", "main" ]
+    paths:
+      - 'front/**'
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [ "main" ]
+    paths:
+      - 'front/**'
+```
+- on : Définit les déclencheurs du workflow, c’est-à-dire les événements qui lancent le workflow.
+  - push : Ce workflow s’exécute lorsqu'un code est poussé dans les branches develop ou main et concerne uniquement les modifications dans le dossier front/.
+  - pull_request : Il s’exécute également lorsque des pull requests sont ouvertes, synchronisées (mises à jour) ou rouvertes vers la branche main, avec des modifications dans front/.
+
+### 3. Jobs - Section de tests pour le frontend (tests-front)
+```yaml
+jobs:
+  tests-front:
+    runs-on: ubuntu-latest
+```
+- jobs : Les actions à exécuter. Chaque tâche est une unité de travail dans le workflow.
+    - tests-front : Un premier job qui gère les tests frontend.
+    - runs-on : Précise le système d’exploitation sur lequel exécuter le job. ubuntu-latest est une version récente d'Ubuntu
     
-    Téléchargement du rapport de couverture : Utilisation de actions/download-artifact@v3 pour récupérer le rapport de couverture (fichier lcov.info) généré lors des tests.
+```yaml
+steps:
+  - name: checkout code
+    uses: actions/checkout@v4
+```
+
+- steps : Liste des actions dans le job.
+  - checkout code : Télécharge le code du projet depuis le dépôt GitHub. actions/checkout@v4 est une action standard pour cloner le dépôt dans l'environnement de travail.
+
+```yaml
+- name: setup node.js
+  uses: actions/setup-node@v3
+  with:
+    node-version: 16
+```
+- setup node.js : Installe Node.js, version 16, nécessaire pour exécuter les tests et les scripts frontend. actions/setup-node@v3 est une action qui gère l'installation de Node.js dans la version spécifiée.
+  
+```yaml
+- name: install dependencies
+working-directory: front
+run: npm install
+```
+- install dependencies : Installe les dépendances nécessaires à l’exécution du projet. working-directory: front indique que cette étape s'exécute dans le dossier front. npm install télécharge toutes les dépendances listées dans package.json.
+
+```yaml
+- name: run tests
+  working-directory: front
+  run: npm run test -- --code-coverage --browsers=ChromeHeadless --watch=false
+```
+- run tests : Exécute les tests du projet. Le drapeau --code-coverage génère un rapport de couverture de code. --browsers=ChromeHeadless utilise Chrome en mode sans interface graphique, et --watch=false exécute les tests une fois sans les surveiller pour des changements.
+
+```yaml
+- name: upload coverage report
+  uses: actions/upload-artifact@v3
+  with:
+    name: coverage-report
+    path: front/coverage
+```
+- upload coverage report : Sauvegarde le rapport de couverture pour qu’il soit accessible par d'autres étapes ou workflows. name: coverage-report attribue un nom à cet artefact, et path: front/coverage précise son emplacement.
+
+### 4. Job pour l’analyse SonarCloud (sonarcloud)
+
+```yaml
+sonarcloud:
+  name: SonarCloud
+  needs: tests-front
+  runs-on: ubuntu-latest
+```
+- sonarcloud : Job pour analyser le code avec SonarCloud.
+  - needs: tests-front signifie que ce job dépend du succès du job tests-front.
+  - runs-on : Exécute le job sur ubuntu-latest.
+ 
+```yaml
+steps:
+  - uses: actions/checkout@v4
+    with:
+      fetch-depth: 0
+```
+- checkout : Cloner le dépôt. fetch-depth: 0 indique un clonage complet pour assurer que SonarCloud analyse l’ensemble des commits et du code.
+
+```yaml
+- name: download coverage report
+  uses: actions/download-artifact@v3
+  with:
+    name: coverage-report
+    path: front/coverage
+```
+- download coverage report : Récupère le rapport de couverture généré lors du job tests-front. path: front/coverage précise où télécharger le rapport.
+
+```yaml
+- name: SonarCloud Scan
+  uses: SonarSource/sonarcloud-github-action@master
+  with:
+    projectBaseDir: front
+  env:
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+```
+- SonarCloud Scan : Analyse le code avec SonarCloud pour évaluer la qualité du code et détecter les éventuels problèmes.
+  - projectBaseDir : Répertoire racine du projet frontend.
+  - GITHUB_TOKEN : Jeton fourni par GitHub pour accéder au dépôt.
+  - SONAR_TOKEN : Jeton d’authentification SonarCloud pour sécuriser l’accès.
+
+### 5. Job pour la création d'une image Docker (docker)
+
+```yaml
+docker:
+  name: Docker Image Front
+  needs: sonarcloud
+  runs-on: ubuntu-latest
+```
+- docker : Job pour créer et pousser une image Docker du frontend.
+  - needs: sonarcloud signifie que ce job dépend du succès du job sonarcloud.
+  - runs-on : Exécute ce job sur ubuntu-latest.
+   
+**Étapes pour construire et publier l'image Docker**
+
+```yaml
+steps:
+   - name: checkout code
+     uses: actions/checkout@v4
+```
+- checkout code : Clone le code pour préparer la création de l'image Docker.
+
+```yaml
+steps:
+ - name: Log in to Docker Hub
+   uses: docker/login-action@v2
+   with:
+    username: ${{ secrets.DOCKER_USERNAME }}
+    password: ${{ secrets.DOCKER_PASSWORD }}
+```
+- Log in to Docker Hub : Se connecte à Docker Hub avec des identifiants sécurisés, nécessaires pour pousser une image.
+  - username et password : Identifiants fournis via les secrets GitHub.
     
-    Scan avec SonarCloud : Utilisation de SonarSource/sonarcloud-github-action@master.
+```yaml
+steps:
+ - name: Build Docker image
+   working-directory: front
+   run: docker build -t ${{ secrets.DOCKER_USERNAME }}/bobapp-front:latest .
+```
+- Build Docker image : Construit une image Docker à partir du Dockerfile dans le dossier front.
+  - -t : Attribue un nom et une balise (latest) à l'image Docker.
     
-  4. Étapes de création de l'image Docker :
-     
-    Connexion à Docker Hub : Utilisation de docker/login-action@v2.
-    
-    Build de l’image Docker : docker build -t ${{ secrets.DOCKER_USERNAME }}/bobapp-front:latest.
-    
-    Push de l’image Docker : docker push ${{ secrets.DOCKER_USERNAME }}/bobapp-front:latest.
+```yaml
+steps:
+ - name: Push Docker image
+   working-directory: front
+   run: docker push ${{ secrets.DOCKER_USERNAME }}/bobapp-front:latest
+```
+- Push Docker image : Envoie l'image Docker vers Docker Hub.
     
 ### Workflow Backend CI - Test & SonarCloud Analysis
 
