@@ -412,13 +412,15 @@ Commentaires : Le rapport SonarCloud du backend fournit des informations importa
 - Duplications de code : Une faible duplication, comme 0 %, est idéale et montre que le code n’a pas de sections répétées inutiles.
 
 ## Suggestions de KPIs additionnels
-Pour garantir la qualité, il est utile de s’appuyer sur les Quality Gates par défaut de SonarCloud, qui sont des seuils de qualité prédéfinis pour chaque métrique. Les KPIs suivants peuvent être établis :
+Pour garantir la qualité, il est utile de s’appuyer sur les Quality Gates par défaut de SonarCloud (Sonar Way), qui sont des seuils de qualité prédéfinis pour chaque métrique. Les KPIs suivants peuvent être établis :
 
-1. Couverture de code : Objectif de 80 % minimum, applicable pour le frontend et le backend.
-2. Fiabilité : Maintenir une note minimum de "A" ou "B". Toute note inférieure pourrait indiquer des bugs qui devront être corrigés.
-3. Sécurité : Note minimum de "A" pour garantir un code exempt de vulnérabilités.
-4. Nouveaux "blocker issues" : Zéro "blocker issue" pour chaque nouvelle mise à jour du code.
-5. Problèmes de maintenabilité (code smells) : Taux acceptable défini par une note "A" ou "B".
-6. Temps de build moyen : Le temps de build doit être inférieur à 5 minutes pour éviter les retards dans le processus de développement.
+1. Bugs : Pas de nouveaux bugs. Tout bug dans le code doit être corrigé avant d'approuver un build.
+2. Fiabilité : Une note de A pour la fiabilité est requise, indiquant l'absence de problèmes critiques susceptibles d'affecter la stabilité.
+3. Vulnérabilités : Pas de nouvelles vulnérabilités. La sécurité de l'application reste ainsi optimale.
+4. Sécurité : Une note de A en sécurité est exigée, ce qui confirme que le code ne comporte pas de vulnérabilités importantes.
+5. Dette technique : Le code doit maintenir une dette technique limitée. Ceci est évalué par une note A en maintenabilité, garantissant que les modifications n'introduisent pas de complexité excessive ou de maintenance supplémentaire.
+6. Points chauds de sécurité : Tous les points chauds (ou security hotspots) doivent être examinés et, le cas échéant, traités pour limiter les risques de sécurité latents.
+7. Couverture des tests : La couverture de code doit être supérieure ou égale à 80 %. Cela permet de vérifier que le code introduit est bien testé et limite les régressions.
+8. Duplication de code : Le pourcentage de lignes de code dupliquées ne doit pas dépasser 3 %. Une faible duplication réduit la complexité et simplifie la maintenance.
    
-Suivant ces Quality Gates pourrai permettre de rapidement évaluer la qualité du code. Un statut "passed" dans SonarCloud Quality Gate pour ces KPI indiquera que le code est en bonne santé, tandis qu’un statut "failed" devra déclencher une investigation et correction.
+Suivre ces Quality Gates pourrai permettre de rapidement évaluer la qualité du code. Un statut "passed" dans SonarCloud Quality Gate pour ces KPI indiquera que le code est en bonne santé, tandis qu’un statut "failed" devra déclencher une investigation et correction.
