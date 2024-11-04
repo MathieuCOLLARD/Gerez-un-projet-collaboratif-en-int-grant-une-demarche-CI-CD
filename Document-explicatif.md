@@ -370,63 +370,55 @@ docker:
   
 ## Indicateurs de Performance Clés (KPI)
 
-Les KPIs suivants sont définis pour surveiller la performance et la qualité des builds CI/CD :
+Les KPIs suivants sont définis pour surveiller la performance et la qualité des workflows CI/CD et garantir la stabilité et la sécurité de l'application dans un contexte de production.
 
-Couverture de code minimale : Maintenir une couverture de code de 80% pour garantir que la majorité du code est testé.
-Taux de réussite des builds : Objectif de 95% pour garantir la fiabilité et la stabilité du code.
+- Couverture de code minimale : Maintenir une couverture de code supérieure à 80 % pour s'assurer que la majorité du code est testé, ce qui limite les risques de régressions.
+- Taux de réussite des builds : Objectif de 95 % pour garantir la fiabilité et la stabilité du code après chaque modification.
+- Nouveaux "blocker issues" : Pas de "blocker issues" sur les nouveaux changements de code, afin d’assurer une qualité élevée et de minimiser les failles de sécurité et les erreurs critiques.
+- Temps de build moyen : Suivre le temps de build pour identifier les builds trop longs et optimiser la rapidité des déploiements.
 
-Analyse des Métriques
-Les métriques initiales de qualité et de performance des workflows sont les suivantes :
+## Analyse des Métriques
+### Couverture de code
 
-Couverture de code :
+**Frontend - Couverture de code (Image de l’index.html du rapport de couverture)**
+![image](https://github.com/user-attachments/assets/519f586a-e824-4553-a4b6-9268d1061a45)
 
-Backend : 38.8%
+Commentaire : Pour cette partie du code, le coverage est satisfaisant mais il est toujours possible de l'améliorer. Le rapport de couverture permet également de repérer des fichiers ou des fonctions spécifiques qui nécessitent des tests supplémentaires.
 
-Frontend : 83.3%
+**Frontend - Métriques SonarCloud**
+![image](https://github.com/user-attachments/assets/90bd51ad-cf88-4276-93f1-82def1960bff)
 
-Temps moyen de build :
+Commentaires : Le rapport SonarCloud pour le frontend montre des indicateurs de qualité tels que la sécurité et la fiabilité. Voici les points essentiels qu'il est important de surveiller :
 
-Backend : 2 minutes
+- Fiabilité : Une note de "A" pour la fiabilité signifie qu'aucun problème critique ou bug majeur n'a été détecté.
+- Maintenabilité : Vérifier la colonne des "code smells" ou problèmes de maintenabilité pour s'assurer qu'il n'y a pas d’accumulation de problèmes techniques. Bien que ces problèmes ne soient pas bloquants, les surveiller est important pour garder un code de qualité.
+- Sécurité : Une note "A" dans cette section indique que le code est exempt de vulnérabilités de sécurité.    
 
-Frontend : 3 minutes
+**Backend - Couverture de code (Image de l’index.html du rapport de couverture)**
+![image](https://github.com/user-attachments/assets/ba11479a-f56d-4475-8c8f-2a1a3191d50a)
 
-Commentaires : Bien que la couverture de code soit excellente côté frontend, le backend pourrait bénéficier de tests supplémentaires pour se rapprocher de l'objectif de 80%.
+Commentaire : La couverture de code pour le backend est insuffisante car nettement inférieure à 80%. La faible couverture suggère que plusieurs parties du code ne sont pas testées et pourraient contenir des bugs non détectés. Il serait judicieux de cibler les fichiers ou les fonctions avec une faible couverture pour des tests unitaires supplémentaires.
 
+**Backend - Métriques SonarCloud**
 
-## Notes de Qualité SonarCloud
+![image](https://github.com/user-attachments/assets/eaa72429-7c2b-4bb1-8211-316bb31d514e)
 
-1. Backend
-   - Sécurité : Note A (0 vulnérabilités détectées)
-   - Fiabilité : Note D (1 problème de fiabilité détecté)
-   - Maintenabilité : Note A (8 problèmes mineurs de maintenabilité)
-   - Note E (0% des points critiques de sécurité revus)
-   - Duplications : 0.0%
+Commentaires : Le rapport SonarCloud du backend fournit des informations importantes pour l’amélioration de la qualité :
+
+- Sécurité : Une note de "A" indique que le code est sécurisé et sans vulnérabilités critiques.
+- Fiabilité : Une note de "D" en fiabilité indique des problèmes potentiels qui peuvent entraîner des dysfonctionnements ou des bugs. Il est recommandé de corriger ces problèmes pour éviter des échecs en production.
+- Maintenabilité : Les "code smells" (problèmes mineurs de maintenabilité) sont notés "A", ce qui est excellent et montre une bonne structure de code.
+- Coverage : Seulement 38.8% du code est convert par les tests.
+- Duplications de code : Une faible duplication, comme 0 %, est idéale et montre que le code n’a pas de sections répétées inutiles.
+
+## Suggestions de KPIs additionnels
+Pour garantir la qualité, il est utile de s’appuyer sur les Quality Gates par défaut de SonarCloud, qui sont des seuils de qualité prédéfinis pour chaque métrique. Les KPIs suivants peuvent être établis :
+
+1. Couverture de code : Objectif de 80 % minimum, applicable pour le frontend et le backend.
+2. Fiabilité : Maintenir une note minimum de "A" ou "B". Toute note inférieure pourrait indiquer des bugs qui devront être corrigés.
+3. Sécurité : Note minimum de "A" pour garantir un code exempt de vulnérabilités.
+4. Nouveaux "blocker issues" : Zéro "blocker issue" pour chaque nouvelle mise à jour du code.
+5. Problèmes de maintenabilité (code smells) : Taux acceptable défini par une note "A" ou "B".
+6. Temps de build moyen : Le temps de build doit être inférieur à 5 minutes pour éviter les retards dans le processus de développement.
    
-2. Frontend
-   - Note A (0 vulnérabilités détectées)
-   - Fiabilité : Note A (aucun problème de fiabilité)
-   - Note A (4 problèmes mineurs de maintenabilité)
-   - Note A (100% des points critiques de sécurité revus)
-   - Duplications : 0.0%
-     
-## Retours Utilisateurs
-
-- Retours positifs :
-
-    Couverture de code : Le frontend atteint une couverture de code de 83.3%, ce qui dépasse l’objectif de 80%.
-  
-    Fiabilité des workflows : Le retour est positif pour les tests stables et le temps de build rapide.
-  
-- Suggestions d’amélioration :
-  
-    Tests end-to-end : Ajouter des tests end-to-end pour mieux couvrir les scénarios d’utilisation.
-  
-    Documentation : Améliorer la documentation pour clarifier le fonctionnement de chaque étape CI/CD.
-  
-## Conclusion et Recommandations
-
-Ce document a décrit les workflows CI/CD, les KPIs et l’analyse des métriques de qualité. Les retours d’utilisateurs indiquent des axes d’amélioration :
-
-Renforcer la couverture de test backend.
-Ajouter des tests end-to-end pour couvrir des cas d’utilisation plus complets.
-Ces recommandations contribueront à garantir une qualité de code optimale et une meilleure satisfaction des utilisateurs.
+Suivant ces Quality Gates pourrai permettre de rapidement évaluer la qualité du code. Un statut "passed" dans SonarCloud Quality Gate pour ces KPI indiquera que le code est en bonne santé, tandis qu’un statut "failed" devra déclencher une investigation et correction.
